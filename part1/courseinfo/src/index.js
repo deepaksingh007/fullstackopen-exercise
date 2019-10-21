@@ -1,11 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-const Header = (props) => props && props.course ? (<h1>{props.course}</h1>) : null;
+const Header = (props) => props ? (<h1>{props.course}</h1>) : null;
+const Part = (props) => props && props.content ?  (<p>{props.content.part} {props.content.exercises}</p>) : null;
 const Content = (props) =>  (props &&  props.contents) ?
-     props.contents.map((content, index) => (<p key={index}>{content.part} {content.exercises}</p>)):
+     props.contents.map((content, index) => (<Part key={index} content={content}/>)):
      null;
-const Total = (props) => props && props.total ? (<p>Number of exercises {props.total}</p>) : null;
+const Total = (props) => props ? (<p>Number of exercises {props.total}</p>) : null;
 
 const App = () => {
   const course = 'Half Stack application development';
