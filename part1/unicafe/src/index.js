@@ -41,15 +41,15 @@ const App = () => {
         },
         {
             text: 'all',
-            value: `${all}`
+            value: all
         },
         {
             text: 'average',
-            value: `${average}`
+            value: average
         },
         {
             text: 'positive',
-            value: `${positive}`
+            value: positive
         },
     ];
     const setFeedBack = (type) => () => {
@@ -67,21 +67,17 @@ const App = () => {
     const feedbacks = [
         {
             text: 'good',
-            setFeedBack: setFeedBack
+            setFeedBack
         },
         {
             text: 'neutral',
-            setFeedBack: setFeedBack
+            setFeedBack
         },
         {
             text: 'bad',
-            setFeedBack: setFeedBack
+            setFeedBack
         }
     ];
-
-
-
-
     return (
       <div>
       <h1>give feedback</h1>
