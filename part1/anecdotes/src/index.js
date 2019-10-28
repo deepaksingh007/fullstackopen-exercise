@@ -22,8 +22,6 @@ const App = (props) => {
     );
     const indexOfMaxNumber = votes.reduce((acc, cur, index) => {
         const indexOfMax = cur > votes[acc] ? index : acc;
-        console.log('votes', votes);
-        console.log(indexOfMax);
         return indexOfMax;
     }, 0);
     return (

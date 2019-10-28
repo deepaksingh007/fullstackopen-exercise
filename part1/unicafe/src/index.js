@@ -80,9 +80,9 @@ const App = () => {
     ];
     return (
       <div>
-      <h1>give feedback</h1>
+      <h3>give feedback</h3>
       <Buttons feedbacks={feedbacks}></Buttons>
-       <h1>statistics</h1>
+       <h3>statistics</h3>
        <Statistics statistics={statistics}/>
       </div>
     )
