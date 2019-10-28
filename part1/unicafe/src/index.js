@@ -3,11 +3,19 @@ import ReactDOM from 'react-dom';
 
 const Button = ({text, setFeedBack}) => (<button onClick={setFeedBack(text)}>{text}</button>);
 const Buttons = ({feedbacks}) => feedbacks ? feedbacks.map((feedback, index) => <Button key = {index} text={feedback.text} setFeedBack={feedback.setFeedBack}/>) : null;
-const Statistic = ({statisticName, value}) => (<p>{statisticName} : {value}</p>);
+const Statistic = ({text, value}) => (<tr><td>{text}</td><td>{value}</td></tr>);
 const Statistics = ({statistics}) => {
-    const all = statistics && statistics.find(statistic => statistic.statisticName === 'all');
+    const all = statistics && statistics.find(statistic => statistic.text === 'all');
+    const statisticsEl = statistics.map(({text, value}, index) => <Statistic key={index} text={text} value={value}/>);
+    const table = (
+    <table>
+        <tbody>
+            {statisticsEl}
+        </tbody>
+    </table>
+    );
     return all && all.value > 0 ? 
-        statistics.map(({statisticName, value}, index) => <Statistic key={index} statisticName={statisticName} value={value}/>) : 
+        table : 
         (<p>No feedback given</p>);
 };
 const App = () => {
@@ -16,31 +24,31 @@ const App = () => {
     const [neutral, setNeutral] = useState(0);
     const [bad, setBad] = useState(0);
     const all = good + neutral + bad;
-    const average = all > 0 ? (good - bad)/all : '-';
-    const positive = all > 0 ? `${good * 100 / all}%` : '-';
+    const average = all > 0 ? ((good - bad)/all).toFixed(1) : '-';
+    const positive = all > 0 ? `${(good * 100 / all).toFixed(1)}%` : '-';
     let statistics = [
         {
-            statisticName: 'good',
+            text: 'good',
             value: good
         },
         {
-            statisticName: 'neutral',
+            text: 'neutral',
             value: neutral
         },
         {
-            statisticName: 'bad',
+            text: 'bad',
             value: bad
         },
         {
-            statisticName: 'all',
+            text: 'all',
             value: `${all}`
         },
         {
-            statisticName: 'average',
+            text: 'average',
             value: `${average}`
         },
         {
-            statisticName: 'positive',
+            text: 'positive',
             value: `${positive}`
         },
     ];
