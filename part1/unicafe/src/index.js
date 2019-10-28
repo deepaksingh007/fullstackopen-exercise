@@ -4,7 +4,12 @@ import ReactDOM from 'react-dom';
 const Button = ({text, setFeedBack}) => (<button onClick={setFeedBack(text)}>{text}</button>);
 const Buttons = ({feedbacks}) => feedbacks ? feedbacks.map((feedback, index) => <Button key = {index} text={feedback.text} setFeedBack={feedback.setFeedBack}/>) : null;
 const Statistic = ({statisticName, value}) => (<p>{statisticName} : {value}</p>);
-const Statistics = ({statistics}) => statistics ? statistics.map(({statisticName, value}, index) => <Statistic key={index} statisticName={statisticName} value={value}/>) : null;
+const Statistics = ({statistics}) => {
+    const all = statistics && statistics.find(statistic => statistic.statisticName === 'all');
+    return all && all.value > 0 ? 
+        statistics.map(({statisticName, value}, index) => <Statistic key={index} statisticName={statisticName} value={value}/>) : 
+        (<p>No feedback given</p>);
+};
 const App = () => {
     // save clicks of each button to own state
     const [good, setGood] = useState(0);
