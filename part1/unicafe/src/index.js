@@ -1,27 +1,42 @@
 import React, {useState} from 'react';
 import ReactDOM from 'react-dom';
 
-const Button = ({text, setFeedBack}) => (<button onClick={setFeedBack(text)}>{text}</button>)
+const Button = ({text, setFeedBack}) => (<button onClick={setFeedBack(text)}>{text}</button>);
 const Buttons = ({feedbacks}) => feedbacks ? feedbacks.map((feedback, index) => <Button key = {index} text={feedback.text} setFeedBack={feedback.setFeedBack}/>) : null;
-const Statistic = ({feedbackName, counter}) => (<p>{feedbackName} : {counter}</p>);
-const Statistics = ({statistics}) => statistics ? statistics.map(({feedbackName, counter}, index) => <Statistic key={index} feedbackName={feedbackName} counter={counter}/>) : null;
+const Statistic = ({statisticName, value}) => (<p>{statisticName} : {value}</p>);
+const Statistics = ({statistics}) => statistics ? statistics.map(({statisticName, value}, index) => <Statistic key={index} statisticName={statisticName} value={value}/>) : null;
 const App = () => {
     // save clicks of each button to own state
     const [good, setGood] = useState(0);
     const [neutral, setNeutral] = useState(0);
     const [bad, setBad] = useState(0);
+    const all = good + neutral + bad;
+    const average = all > 0 ? (good - bad)/all : '-';
+    const positive = all > 0 ? `${good * 100 / all}%` : '-';
     let statistics = [
         {
-            feedbackName: 'good',
-            counter: good
+            statisticName: 'good',
+            value: good
         },
         {
-            feedbackName: 'neutral',
-            counter: neutral
+            statisticName: 'neutral',
+            value: neutral
         },
         {
-            feedbackName: 'bad',
-            counter: bad
+            statisticName: 'bad',
+            value: bad
+        },
+        {
+            statisticName: 'all',
+            value: `${all}`
+        },
+        {
+            statisticName: 'average',
+            value: `${average}`
+        },
+        {
+            statisticName: 'positive',
+            value: `${positive}`
         },
     ];
     const setFeedBack = (type) => () => {
@@ -34,20 +49,7 @@ const App = () => {
                 break;
             default:  setBad(bad + 1);
         };
-        return statistics =[
-            {
-                feedbackName: 'good',
-                counter: good
-            },
-            {
-                feedbackName: 'neutral',
-                counter: neutral
-            },
-            {
-                feedbackName: 'bad',
-                counter: bad
-            },
-        ];
+
     };
     const feedbacks = [
         {
@@ -61,7 +63,7 @@ const App = () => {
         {
             text: 'bad',
             setFeedBack: setFeedBack
-        },
+        }
     ];
 
 
