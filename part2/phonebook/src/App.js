@@ -12,11 +12,18 @@ const App = () => {
   const [ filter, setFilter ] = useState('');
   const addPerson = event => {
     event.preventDefault();
-    if(persons.find(person => person.name === newName)) {
-       return alert(`${newName} is already added to phonebook`);
+    const newPerson = {name: newName, number: newNumber};
+    const personWithSameName = persons.find(person => person.name === newName);
+    if(personWithSameName) {
+       return window.confirm(`${newName} is already added to phonebook, replace the old number with  a new one?`) ?
+       personsService.updatePerson(personWithSameName.id, newPerson)
+       .then(data => {
+           const newPersons = persons.map(person => person.id === data.id ? {...data} : person);
+           setPersons(newPersons);
+       }) : 
+       null;
     }
     else {
-        const newPerson = {name: newName, number: newNumber};
         personsService.addNewPerson(newPerson)
         .then( data => {
            setPersons(persons.concat(data));
