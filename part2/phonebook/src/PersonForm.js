@@ -1,12 +1,12 @@
 import React from 'react';
 
-const PersonForm = ({onSubmit, handleNewName, handleNewNumber}) => (
+const PersonForm = ({name, number, onSubmit, handleNewName, handleNewNumber}) => (
 <form onSubmit={onSubmit}>
     <div>
-      name: <input onChange={handleNewName}/>
+      name: <input value ={name} onChange={handleNewName}/>
     </div>
     <div>
-      number: <input type="tel" onChange={handleNewNumber}/>
+      number: <input type="tel" value={number} onChange={handleNewNumber}/>
     </div>
     <div>
       <button type="submit">add</button>
