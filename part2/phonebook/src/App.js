@@ -39,6 +39,10 @@ const App = () => {
      .catch(error => console.error(error));    
  };
  useEffect(initPersons, []);
+ const deletePerson = personObject => personsService
+    .deletePerson(personObject)
+    .then(() => setPersons(persons.filter(person => person.id !== personObject.id)))
+    .catch(error => console.error(error));
   return (
     <div>
       <h2>Phonebook</h2>
@@ -46,7 +50,7 @@ const App = () => {
       <h3>add a new</h3>
       <PersonForm name={newName} number={newNumber} onSubmit={addPerson} handleNewName={handleNewName} handleNewNumber={handleNewNumber}/>
       <h2>Numbers</h2>
-      <Persons persons={persons} filter={filter}/>
+      <Persons persons={persons} filter={filter} deletePerson={deletePerson}/>
     </div>
   );
 };
