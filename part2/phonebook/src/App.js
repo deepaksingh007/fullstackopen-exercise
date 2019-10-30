@@ -26,8 +26,21 @@ const App = () => {
             message: `Updated ${newPerson.name}`
            });
            setTimeout(() => setNotification(null), 2000);
-       }) : 
+       })
+       .catch(({response}) => {
+           console.log(response);
+         if(!response || response.status !== 404 ) return null;
+         setNotification(
+           {
+               type: 'error',
+               message: `Information of ${newPerson.name} has already been removed from server`
+            }) ;
+         setTimeout(() => setNotification(null), 2000);
+        }
+       )
+       : 
        null;
+
     }
     else {
         personsService.addNewPerson(newPerson)
