@@ -39,10 +39,14 @@ const App = () => {
      .catch(error => console.error(error));    
  };
  useEffect(initPersons, []);
- const deletePerson = personObject => personsService
-    .deletePerson(personObject)
-    .then(() => setPersons(persons.filter(person => person.id !== personObject.id)))
-    .catch(error => console.error(error));
+ const deletePerson = personObject => {
+     if(window.confirm(`Delete ${personObject.name}?`))
+     {
+         personsService.deletePerson(personObject)
+         .then(() => setPersons(persons.filter(person => person.id !== personObject.id)))
+         .catch(error => console.error(error));
+    }
+};
   return (
     <div>
       <h2>Phonebook</h2>
