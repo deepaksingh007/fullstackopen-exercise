@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import Persons from './Persons';
 import PersonForm from './PersonForm';
 import Filter from './Filter';
 import personsService from './services/persons';
+import Notification from './Notification';
 
 const App = () => {
   const [ persons, setPersons] = useState([]) ;
   const [ newName, setNewName ] = useState('');
   const [ newNumber, setNewNumber ] = useState('');
   const [ filter, setFilter ] = useState('');
+  const [notification, setNotification] = useState(null);
   const addPerson = event => {
     event.preventDefault();
     const newPerson = {name: newName, number: newNumber};
@@ -20,6 +21,11 @@ const App = () => {
        .then(data => {
            const newPersons = persons.map(person => person.id === data.id ? {...data} : person);
            setPersons(newPersons);
+           setNotification({
+            type: 'success',
+            message: `Updated ${newPerson.name}`
+           });
+           setTimeout(() => setNotification(null), 2000);
        }) : 
        null;
     }
@@ -27,6 +33,11 @@ const App = () => {
         personsService.addNewPerson(newPerson)
         .then( data => {
            setPersons(persons.concat(data));
+           setNotification({
+            type: 'success',
+            message: `Added ${newPerson.name}`
+           });
+           setTimeout(() => setNotification(null), 2000);
            setNewNumber('');
            setNewName('');
            });
@@ -57,6 +68,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification notification={notification}/>
       <Filter onChange={handlerFilter}/>
       <h3>add a new</h3>
       <PersonForm name={newName} number={newNumber} onSubmit={addPerson} handleNewName={handleNewName} handleNewNumber={handleNewNumber}/>
