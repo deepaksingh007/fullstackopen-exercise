@@ -24,7 +24,7 @@ useEffect(effect,[search]);
   return (
     <div className="App">
       find countries <input onChange={handleSearch}/>
-      <Countries countries={countries}/>
+      <Countries countries={countries} setCountries={setCountries}/>
     </div>
   );
 }

@@ -1,5 +1,6 @@
 import React from 'react';
-const Country = ({country, showDetail}) => {
+const Country = ({country, showDetail, setCountries}) => {
+    const showCountry = () => setCountries([country]);
     const details = (
       <div>
         <h1>{country.name}</h1>
@@ -10,12 +11,12 @@ const Country = ({country, showDetail}) => {
         <img src={country.flag} alt="flag" width="100" height="100"/>
       </div>
     );
-    return showDetail ? details: (<p key={country.name}>{country.name}</p>)
+    return showDetail ? details: (<p key={country.name}>{country.name}<button onClick={showCountry}>show</button></p>)
 };
-const Countries = ({countries}) => {
+const Countries = ({countries, setCountries}) => {
     if(!countries) return null;
     const showDetail =  countries.length === 1 ? true : false;
-    return countries.length <= 10 ? (<div>{countries.map(country => (<Country key={country.name} country={country} showDetail={showDetail}/>))}</div>) :
+    return countries.length <= 10 ? (<div>{countries.map(country => (<Country key={country.name} country={country} setCountries={setCountries} showDetail={showDetail}/>))}</div>) :
     (<p>Too many matches, specify another filter</p>);
 };
 
