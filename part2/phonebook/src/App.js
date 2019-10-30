@@ -28,7 +28,6 @@ const App = () => {
            setTimeout(() => setNotification(null), 2000);
        })
        .catch(({response}) => {
-           console.log(response);
          if(!response || response.status !== 404 ) return null;
          setNotification(
            {
