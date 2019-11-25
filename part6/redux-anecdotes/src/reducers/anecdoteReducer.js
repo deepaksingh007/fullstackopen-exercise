@@ -1,4 +1,4 @@
-import { getAll, createAnecdote } from "../services/anecdoteService"
+import { getAll, createAnecdote, updateAnecnote } from "../services/anecdoteService"
 
 const anecdotesAtStart = []
 
@@ -35,12 +35,18 @@ export const anecdoteReducer = (state = initialState, action) => {
   }
 }
 
-export const vote = (id) => ({
-    type: 'VOTE',
-    data: {
-        id
+export const vote = (anecdote) => {
+    return async (dispatch) => {
+        const newAnecdote = {...anecdote, votes: anecdote.votes + 1}
+        await updateAnecnote(anecdote.id, newAnecdote)
+        dispatch({
+            type: 'VOTE',
+            data: {
+                id: anecdote.id
+            }
+        })
     }
-})
+}
 
 export const createNote = (anecdote) => {
     return async (dispatch) => {

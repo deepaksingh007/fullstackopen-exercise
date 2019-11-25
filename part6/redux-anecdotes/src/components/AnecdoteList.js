@@ -6,12 +6,10 @@ import {connect} from 'react-redux'
 const AnecdoteList = (props) => {
     const anecdotes = props.anecdotes;
     console.log(anecdotes)
-    const addVotes = ({id, content}) => {
-        props.vote(id)
+    const addVotes = (anecdote) => {
+        const {content} = anecdote
+        props.vote(anecdote)
         props.setNotification(`You voted '${content}'`)
-        setTimeout(() => {
-            props.setNotification('')
-          }, 5000)
       }
     return (
     <div>

@@ -5,7 +5,7 @@ export const getAll = () => axios.get(baseUrl).then(response => {
 })
 
 export const createAnecdote = (anecdote) => axios.post(baseUrl, newAnecdote(anecdote)).then(response => response.data)
-
+export const updateAnecnote = (id, anecdote) => axios.put(`${baseUrl}/${id}`, anecdote).then(response => response.data)
 const newAnecdote = (note) => ({content: note, id: getId(),votes: 0})
 const getId = () => (100000 * Math.random()).toFixed(0)
 
