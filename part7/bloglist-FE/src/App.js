@@ -11,7 +11,8 @@ import blogService from './services/blogs'
 import User from './components/User'
 import Logout from './components/Logout'
 import BlogDetail from './components/BlogDetail'
-import Menu from './components/Menu'
+import Navigation from './components/Menu'
+import { Container } from 'semantic-ui-react'
 
 function App(props) {
   const { user, users, bloglist } = props
@@ -48,14 +49,14 @@ function App(props) {
   }
   return (
     <Router>
-      <div className="App">
-        <Menu/>
+      <Container className="App">
+        <Navigation/>
         <h1>blog app</h1>
         <Route exact path="/" render={() => user ? <ConnectedBloglist /> : <ConnectedLoginForm />}></Route>
         <Route exact path="/users" render={() => user ? <ConnectedUsers /> : <ConnectedLoginForm/>}></Route>
         <Route path="/users/:id" render={({ match }) => user ? <User user={userById(match.params.id)} /> : <ConnectedLoginForm />}></Route>
         <Route path="/blogs/:id" render={({ match }) => user ? <BlogDetail blog={blogById(match.params.id)}/> : <ConnectedLoginForm />}></Route>
-      </div>
+      </Container>
     </Router>
 
   )
