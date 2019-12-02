@@ -31,10 +31,10 @@ export const initialiseBloglist = () => {
 export const createBlog = (blog) => {
   return async dispatch => {
     try{
-      await blogService.addBlog(blog)
+      const blogWithId = await blogService.addBlog(blog)
       dispatch({
         type: 'ADD',
-        data: blog
+        data: blogWithId
       })
     }catch(exception){
       console.log(exception)

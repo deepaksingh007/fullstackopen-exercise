@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { initUser, login, logout } from '../reducers/user.reducer'
+import { List } from 'semantic-ui-react'
 const User = (props) => {
   const { user } = props
   if(!user) return null
@@ -9,9 +10,9 @@ const User = (props) => {
     <div>
       <h1>{user.name}</h1>
       <h3>added blogs</h3>
-      <ul>
-        {user.blogs.map((blog) => (<li key={blog.id}>{blog.title}</li>))}
-      </ul>
+      <List bulleted>
+        {user.blogs.map((blog) => (<List.Item key={blog.id}>{blog.title}</List.Item>))}
+      </List>
     </div>)
 }
 const mapStateToProps = (state) => ({

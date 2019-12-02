@@ -1,6 +1,7 @@
 import React from 'react'
 import { updateBlog } from '../reducers/bloglist.reducer'
 import { connect } from 'react-redux'
+import { Form, Button, List } from 'semantic-ui-react'
 const BlogDetail = (props) => {
   const { blog, updateBlog } = props
   if(!blog) return null
@@ -24,15 +25,17 @@ const BlogDetail = (props) => {
       </p>
       <h3>comments</h3>
 
-      <form onSubmit={handleSubmit}>
-        <p>
-          <input name='comment' type='text'/><button type='submit'>add comment</button>
-        </p>
-      </form>
-
-      <ul>
-        {blog.comments.map((comment, index) => <li key={comment + index}>{comment}</li>)}
-      </ul>
+      <Form onSubmit={handleSubmit}>
+        <Form.Field>
+          <input name='comment' type='text'/>
+          <Button type='submit'>
+            add comment
+          </Button>
+        </Form.Field>
+      </Form>
+      <List bulleted>
+        {blog.comments.map((comment, index) => <List.Item key={comment + index}>{comment}</List.Item>)}
+      </List>
     </div>
   )
 }

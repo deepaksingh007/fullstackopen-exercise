@@ -6,6 +6,7 @@ import { connect } from 'react-redux'
 import blogService from '../services/blogs'
 import { createBlog } from '../reducers/bloglist.reducer'
 import { logout } from '../reducers/user.reducer'
+import { List } from 'semantic-ui-react'
 
 const Bloglist = (props) => {
   const { bloglist, createBlog } = props
@@ -20,7 +21,9 @@ const Bloglist = (props) => {
       <Togglable buttonLabel={'new blog'} ref={togglableRef}>
         <BlogForm handleCreate={handleCreate} />
       </Togglable>
-      {bloglist && bloglist.map((blog, index) => (<Blog blog={blog} key={blog.title + index} />))}
+      <List>
+        {bloglist && bloglist.map((blog, index) => (<Blog blog={blog} key={blog.title + index} />))}
+      </List>
     </div>)
 }
 const mapStateToProps = (state) => ({ user: state.user, bloglist: state.bloglist })

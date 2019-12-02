@@ -4,10 +4,11 @@ import ProtoType from 'prop-types'
 import Togglable from './Togglable'
 import { connect } from 'react-redux'
 import { login } from '../reducers/user.reducer'
+import { Form, Button } from 'semantic-ui-react'
 
 const LoginForm = (props) => {
-  const { reset: resetUsername, ...username } = useField({ id: 'username', type: 'text' })
-  const { reset: resetPassowrd, ...password } = useField({ id: 'password', type: 'text' })
+  const { reset: resetUsername, ...username } = useField({ id: 'username', type: 'text', name: 'username' })
+  const { reset: resetPassowrd, ...password } = useField({ id: 'password', type: 'text', name: 'password' })
   const reset = () => {
     resetUsername()
     resetPassowrd()
@@ -23,17 +24,17 @@ const LoginForm = (props) => {
   }
   return (
     <Togglable buttonLabel='login'>
-      <form onSubmit={onSubmit}>
-        <div>
+      <Form onSubmit={onSubmit}>
+        <Form.Field>
           <label htmlFor='username'>username</label>
           <input {...username} />
-        </div>
-        <div>
+        </Form.Field>
+        <Form.Field>
           <label htmlFor='password'>password</label>
           <input {...password} />
-        </div>
-        <button type='submit'>submit</button>
-      </form>
+        </Form.Field>
+        <Button type='submit'>submit</Button>
+      </Form>
     </Togglable>
   )
 }
