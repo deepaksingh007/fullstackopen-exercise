@@ -1,22 +1,20 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
-import { BrowserRouter as Router, Link, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Route } from 'react-router-dom'
+import { Container } from 'semantic-ui-react'
+import BlogDetail from './components/BlogDetail'
 import { ConnectedBloglist } from './components/Bloglist'
 import { ConnectedLoginForm } from './components/LoginForm'
-import { ConnectedUsers } from './components/Users'
-import { createBlog, initialiseBloglist, bloglistReducer } from './reducers/bloglist.reducer'
-import { initialiseUsers } from './reducers/users.reducer'
-import { initUser, login, logout } from './reducers/user.reducer'
-import blogService from './services/blogs'
-import User from './components/User'
-import Logout from './components/Logout'
-import BlogDetail from './components/BlogDetail'
 import Navigation from './components/Menu'
-import { Container } from 'semantic-ui-react'
+import User from './components/User'
+import { ConnectedUsers } from './components/Users'
+import { createBlog, initialiseBloglist } from './reducers/bloglist.reducer'
+import { initUser, login, logout } from './reducers/user.reducer'
+import { initialiseUsers } from './reducers/users.reducer'
+import blogService from './services/blogs'
 
 function App(props) {
   const { user, users, bloglist } = props
-  const padding = { paddingRight: 10 }
 
   useEffect(
     () => {
