@@ -24,7 +24,7 @@ const LoginForm = (props) => {
   }
   return (
     <Togglable buttonLabel='login'>
-      <Form onSubmit={onSubmit}>
+      <Form onSubmit={onSubmit} id='loginform'>
         <Form.Field>
           <label htmlFor='username'>username</label>
           <input {...username} />

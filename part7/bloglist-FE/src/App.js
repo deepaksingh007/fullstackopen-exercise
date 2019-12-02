@@ -50,7 +50,7 @@ function App(props) {
       <Container className="App">
         <Navigation/>
         <h1>blog app</h1>
-        <Route exact path="/" render={() => user ? <ConnectedBloglist /> : <ConnectedLoginForm />}></Route>
+        <Route exact path="/" render={() => user ? <ConnectedBloglist /> : <ConnectedLoginForm/>}></Route>
         <Route exact path="/users" render={() => user ? <ConnectedUsers /> : <ConnectedLoginForm/>}></Route>
         <Route path="/users/:id" render={({ match }) => user ? <User user={userById(match.params.id)} /> : <ConnectedLoginForm />}></Route>
         <Route path="/blogs/:id" render={({ match }) => user ? <BlogDetail blog={blogById(match.params.id)}/> : <ConnectedLoginForm />}></Route>

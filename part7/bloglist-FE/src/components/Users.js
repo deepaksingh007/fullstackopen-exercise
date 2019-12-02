@@ -7,7 +7,7 @@ const Users = (props) => {
 
   return (<div>
     <h1>Users</h1>
-    <Table>
+    <Table id='usersTable'>
       <Table.Header>
         <Table.Row>
           <Table.HeaderCell>
