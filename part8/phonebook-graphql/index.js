@@ -112,7 +112,10 @@ type Author {
     author: String!
     published: Int!
     genres: [String!]!): Book
+    editAuthor(name: String!
+      setBornTo: Int): Author
   }
+
 `
 
 const resolvers = {
@@ -123,14 +126,12 @@ const resolvers = {
     allBooks: (root, args) => books.filter(book => (args.author === undefined || book.author === args.author) && (args.genre === undefined || book.genres.includes(args.genre))),
     allAuthors: () => {
       authors = authors.map(author => countBooks(author))
-    console.log(authors)
     return authors
   }
   },
   Mutation:{
     addBook: (root, args) => {
       const book = args
-      console.log(book)
       books = books.concat({...book})
       const authorNames = authors.map(author => author.name)
       if(authorNames.includes(book.author)){
@@ -139,8 +140,29 @@ const resolvers = {
       else {
         authors = authors.concat({name: book.author, born: null, bookCount: 1})
       }
-      console.log(authors)
       return  book
+    },
+    editAuthor: (root, args) => {
+      const {name, setBornTo} = args
+      const authorNames = authors.map(author => author.name)
+      if(authorNames.includes(name)){
+        let i
+        authors = authors.map((author, index) => {
+          if(name === author.name )
+          {
+            i = index
+            return ({...author, born: setBornTo})
+
+          }
+          else {
+            return author
+          }
+        })
+        return authors[i]
+      }
+      else {
+        return null
+      }
     }
   } 
 }
@@ -159,3 +181,4 @@ const countBooks = (author) => {
 server.listen().then(({ url }) => {
   console.log(`Server ready at ${url}`)
 })
+
