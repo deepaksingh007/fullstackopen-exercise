@@ -31,8 +31,10 @@ const NewBook = (props) => {
     }
   }`)
 
+  const handleError = (error) => console.log(error)
+
   return (
-    <Mutation mutation={CREATE_BOOK}>
+    <Mutation mutation={CREATE_BOOK} onError={handleError}>
       {
         (addBook ) => {
           const submit = async (e) => {
