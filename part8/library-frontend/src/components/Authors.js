@@ -1,9 +1,10 @@
 import { gql } from 'apollo-boost'
 import React from 'react'
-import { Query, Mutation } from 'react-apollo'
+import { Mutation, Query } from 'react-apollo'
 import AuthorForm from './AuthorForm'
 
 const Authors = (props) => {
+
   if (!props.show) {
     return null
   }
@@ -24,6 +25,7 @@ const Authors = (props) => {
   }
   `)
   const handleError = (error) => console.log(error)
+
 
   return (
     <div>
@@ -57,17 +59,18 @@ const Authors = (props) => {
                     )}
                   </tbody>
                 </table>
+                <Mutation
+                  mutation={SET_BORN}
+                  onError={handleError}
+                  refetchQueries={[{query: ALL_AUTHORS}]}
+                >
+                  {(editAuthor) => <AuthorForm authors={authors} editAuthor={editAuthor}></AuthorForm>}
+                </Mutation>
               </div>)
           }
         }}
       </Query>
-      <Mutation
-        mutation={SET_BORN}
-        onError={handleError}
-        refetchQueries={[{query: ALL_AUTHORS}]}
-      >
-        {(editAuthor) => <AuthorForm editAuthor={editAuthor}></AuthorForm>}
-      </Mutation>
+
     </div>
   )
 }
