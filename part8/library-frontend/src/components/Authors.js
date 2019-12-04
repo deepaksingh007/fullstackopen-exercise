@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
-import {Query} from 'react-apollo'
-import {gql} from 'apollo-boost'
+import { gql } from 'apollo-boost'
+import React from 'react'
+import { Query } from 'react-apollo'
 
 const Authors = (props) => {
   if (!props.show) {
