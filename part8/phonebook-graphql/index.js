@@ -1,5 +1,6 @@
-const { ApolloServer, gql } = require('apollo-server')
-
+const { ApolloServer, gql, UserInputError } = require('apollo-server')
+const Book = require('./model/Book')
+const Author = require('./model/Author')
 let authors = [
   {
     name: 'Robert Martin',
@@ -16,11 +17,11 @@ let authors = [
     id: "afa5b6f1-344d-11e9-a414-719c6709cf3e",
     born: 1821
   },
-  { 
+  {
     name: 'Joshua Kerievsky', // birthyear not known
     id: "afa5b6f2-344d-11e9-a414-719c6709cf3e",
   },
-  { 
+  {
     name: 'Sandi Metz', // birthyear not known
     id: "afa5b6f3-344d-11e9-a414-719c6709cf3e",
   },
@@ -60,7 +61,7 @@ let books = [
     author: 'Joshua Kerievsky',
     id: "afa5de01-344d-11e9-a414-719c6709cf3e",
     genres: ['refactoring', 'patterns']
-  },  
+  },
   {
     title: 'Practical Object-Oriented Design, An Agile Primer Using Ruby',
     published: 2012,
@@ -94,7 +95,7 @@ type Author {
   type Book {
     title: String!
     published: Int!
-    author: String!
+    author: Author!
     id: ID!
     genres: [String!]!
   }
@@ -121,50 +122,53 @@ type Author {
 const resolvers = {
   Query: {
     hello: () => { return "world" },
-    bookCount: () => books.length,
-    authorCount: () => authors.length,
-    allBooks: (root, args) => books.filter(book => (args.author === undefined || book.author === args.author) && (args.genre === undefined || book.genres.includes(args.genre))),
-    allAuthors: () => {
-      authors = authors.map(author => countBooks(author))
-    return authors
-  }
-  },
-  Mutation:{
-    addBook: (root, args) => {
-      const book = args
-      books = books.concat({...book})
-      const authorNames = authors.map(author => author.name)
-      if(authorNames.includes(book.author)){
-        authors = authors.map(author => ({...author, bookCount: author.name === book.author ? countBooks(author) + 1 : countBooks(author)}))
+    bookCount: () => Book.collection.countDocuments(),
+    authorCount: () => Author.collection.countDocuments(),
+    allBooks: async (root, args) => {
+      try {
+        const books = await Book.find({}).populate('author')
+        return books.filter(book => (args.author === undefined || book.author === args.author) && (args.genre === undefined || book.genres.includes(args.genre)))
+      } catch (exception) {
+        throw exception
       }
-      else {
-        authors = authors.concat({name: book.author, born: null, bookCount: 1})
-      }
-      return  book
     },
-    editAuthor: (root, args) => {
-      const {name, setBornTo} = args
-      const authorNames = authors.map(author => author.name)
-      if(authorNames.includes(name)){
-        let i
-        authors = authors.map((author, index) => {
-          if(name === author.name )
-          {
-            i = index
-            return ({...author, born: setBornTo})
+    allAuthors: () => Author.find({})
+  },
+  Mutation: {
+    addBook: async (root, args) => {
+      try {
+        let author = await Author.findOne({ name: args.author })
+        console.log('author', author)
+        if (author) {
+          author.bookCount = author.bookCount + 1
+        }
+        else {
+          author = new Author({ name: args.author, born: null, bookCount: 1 })
+        }
+        await author.save()
+        const book = await new Book({ ...args, author: author._id }).save()
+        book.author = author
+        return book
+      } catch (exception) {
+        throw new UserInputError(exception.message, { invalidArgs: args })
+      }
 
-          }
-          else {
+    },
+    editAuthor: async (root, args) => {
+        try {
+          const { name, setBornTo } = args
+          const author = await Author.findOne({ name })
+          if(author){
+            author.born = setBornTo
+            await author.save()
             return author
           }
-        })
-        return authors[i]
-      }
-      else {
-        return null
-      }
-    }
-  } 
+          else {return null}
+        } catch (exception) {
+          throw new UserInputError(exception.message, { invalidArgs: args })
+        }
+      }   
+  }
 }
 
 const server = new ApolloServer({
@@ -173,10 +177,10 @@ const server = new ApolloServer({
 })
 
 const countBooks = (author) => {
-  const bookCount = books.reduce( (acc, cur) => {
+  const bookCount = books.reduce((acc, cur) => {
     return cur.author === author.name ? acc + 1 : acc
-  } ,0)
-  return {...author, bookCount}
+  }, 0)
+  return { ...author, bookCount }
 }
 server.listen().then(({ url }) => {
   console.log(`Server ready at ${url}`)
