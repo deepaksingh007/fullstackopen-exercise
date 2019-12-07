@@ -2,19 +2,15 @@ import { gql } from 'apollo-boost'
 import React from 'react'
 import { Mutation, Query } from 'react-apollo'
 import AuthorForm from './AuthorForm'
+import {ALL_AUTHORS} from '../graphql/query'
+
 
 const Authors = (props) => {
 
   if (!props.show) {
     return null
   }
-  const ALL_AUTHORS = gql(`{
-    allAuthors{
-      name
-      born
-      bookCount
-    }
-  }`)
+
 
   const SET_BORN = gql(`
   mutation editBorn($name: String!, $born: Int!){

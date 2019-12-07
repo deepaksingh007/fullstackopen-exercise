@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Mutation } from 'react-apollo'
 import gql from 'graphql-tag'
+import {ALL_AUTHORS_AND_BOOKS} from '../graphql/query'
 
 const NewBook = (props) => {
   const [title, setTitle] = useState('')
@@ -27,14 +28,16 @@ const NewBook = (props) => {
       genres: $genres
     ) {
       title,
-      author
+      author{
+        name
+      }
     }
   }`)
 
   const handleError = (error) => console.log(error)
 
   return (
-    <Mutation mutation={CREATE_BOOK} onError={handleError}>
+    <Mutation mutation={CREATE_BOOK} onError={handleError} refetchQueries={[{query: ALL_AUTHORS_AND_BOOKS}]}>
       {
         (addBook ) => {
           const submit = async (e) => {
