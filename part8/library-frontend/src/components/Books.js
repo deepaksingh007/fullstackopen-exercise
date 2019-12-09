@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react'
-import { Query, useApolloClient } from 'react-apollo'
-import gql from 'graphql-tag'
+import React, { useEffect, useState } from 'react'
+import { useApolloClient } from 'react-apollo'
 import { ALL_BOOKS, BOOKS_BY_GENRE } from '../graphql/query'
 
 const Books = (props) => {
@@ -63,6 +62,7 @@ const Books = (props) => {
           </tbody>
         </table>
         {bookGenres && bookGenres.map(genere => <button key={genere} onClick={() => setFilter(genere)}>{genere}</button>)}
+        <button onClick={() => setFilter(null)}>all genres</button>
       </div>
   )
 }
