@@ -1,26 +1,32 @@
 import gql from "graphql-tag"
 
-export const ALL_BOOKS = gql(`{
+export const BOOK_DETAILS = gql`
+  fragment BookDetails on Book {
+    title
+    author{
+      name
+    }
+    published
+    genres
+  }
+` 
+export const ALL_BOOKS = gql`
+{
   allBooks{
-    title
-    author{
-      name
-    }
-    published
-    genres
+    ...BookDetails
   }
-}`)
+}
+${BOOK_DETAILS}
+`
 
-export const BOOKS_BY_GENRE = gql(`query bookByGenre($genre: String!){
+export const BOOKS_BY_GENRE = gql`
+query bookByGenre($genre: String!){
   allBooks(genre: $genre){
-    title
-    author{
-      name
-    }
-    published
-    genres
+    ...BookDetails
   }
-}`)
+}
+${BOOK_DETAILS}
+`
 
 export const ALL_AUTHORS = gql(`{
   allAuthors{

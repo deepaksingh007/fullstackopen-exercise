@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useApolloClient } from 'react-apollo'
+import { useApolloClient, useSubscription } from 'react-apollo'
 import { ALL_BOOKS, BOOKS_BY_GENRE } from '../graphql/query'
 
 const Books = (props) => {

@@ -3,7 +3,9 @@ import Authors from './components/Authors'
 import Books from './components/Books'
 import NewBook from './components/NewBook'
 import Login from './components/Login'
-import { useApolloClient } from 'react-apollo'
+import { useApolloClient,useSubscription } from 'react-apollo'
+import { BOOK_ADDED } from './graphql/subscription'
+
 
 const App = () => {
   const [page, setPage] = useState('login')
@@ -22,6 +24,11 @@ const App = () => {
     client.clearStore()
     setPage('login')
   }
+  useSubscription(BOOK_ADDED, {
+    onSubscriptionData: ({subscriptionData}) => {
+      window.alert(`${JSON.stringify(subscriptionData.data.bookAdded)}`)
+    }
+  })
   return (
 
     <div>
