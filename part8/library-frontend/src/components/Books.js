@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import { useApolloClient, useSubscription } from 'react-apollo'
+import { useApolloClient } from 'react-apollo'
 import { ALL_BOOKS, BOOKS_BY_GENRE } from '../graphql/query'
+import BooksTable from './BooksTable'
 
 const Books = (props) => {
   const [filter, setFilter] = useState(null)
@@ -40,27 +41,7 @@ const Books = (props) => {
       <div>
         <h2>books</h2>
         {filter ? `in genre ${filter}` : null}
-        <table>
-          <tbody>
-            <tr>
-              <th></th>
-              <th>
-                author
-                  </th>
-              <th>
-                published
-                  </th>
-            </tr>
-            {books.map(book => !filter || book.genres.includes(filter) ?
-              <tr key={book.title}>
-                <td>{book.title}</td>
-                <td>{book.author.name}</td>
-                <td>{book.published}</td>
-              </tr> :
-              null
-            )}
-          </tbody>
-        </table>
+        <BooksTable filter={filter}></BooksTable>
         {bookGenres && bookGenres.map(genere => <button key={genere} onClick={() => setFilter(genere)}>{genere}</button>)}
         <button onClick={() => setFilter(null)}>all genres</button>
       </div>

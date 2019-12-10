@@ -20,7 +20,7 @@ ${BOOK_DETAILS}
 `
 
 export const BOOKS_BY_GENRE = gql`
-query bookByGenre($genre: String!){
+query bookByGenre($genre: String){
   allBooks(genre: $genre){
     ...BookDetails
   }
