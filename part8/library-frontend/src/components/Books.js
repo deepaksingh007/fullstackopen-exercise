@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useApolloClient } from 'react-apollo'
-import { ALL_BOOKS, BOOKS_BY_GENRE } from '../graphql/query'
+import { ALL_BOOKS, BOOKS_BY_GENRE } from '../graphql/queries/book'
 import BooksTable from './BooksTable'
 
 const Books = (props) => {

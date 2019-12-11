@@ -1,6 +1,6 @@
-import gql from 'graphql-tag'
 import React, { useState } from 'react'
-import { Mutation } from 'react-apollo'
+import { CREATE_BOOK } from '../graphql/mutations/book'
+import { useMutation } from 'react-apollo'
 
 const NewBook = (props) => {
   const [title, setTitle] = useState('')
@@ -8,7 +8,8 @@ const NewBook = (props) => {
   const [published, setPublished] = useState('')
   const [genre, setGenre] = useState('')
   const [genres, setGenres] = useState([])
-
+  const handleError = (error) => console.log(error)
+  const [addBook] = useMutation(CREATE_BOOK, { onError: handleError })
   if (!props.show) {
     return null
   }
@@ -18,79 +19,54 @@ const NewBook = (props) => {
     setGenre('')
   }
 
-  const CREATE_BOOK = gql(`
-  mutation createBook($title: String!, $author: String!, $published: Int!, $genres: [String!]!){
-    addBook(
-      title: $title,
-      author: $author,
-      published: $published,
-      genres: $genres
-    ) {
-      title,
-      author{
-        name
-      }
-    }
-  }`)
-
-  const handleError = (error) => console.log(error)
+  const submit = async (e) => {
+    e.preventDefault()
+    addBook({ variables: { title, published: parseInt(published, 10), author, genres } })
+    setTitle('')
+    setPublished('')
+    setAuhtor('')
+    setGenres([])
+    setGenre('')
+  }
 
   return (
-    <Mutation mutation={CREATE_BOOK} onError={handleError}>
-      {
-        (addBook ) => {
-          const submit = async (e) => {
-            e.preventDefault()
-            addBook({ variables: {title, published: parseInt(published, 10), author, genres}})
-            setTitle('')
-            setPublished('')
-            setAuhtor('')
-            setGenres([])
-            setGenre('')
-          }
-          return (
-            <div>
-              <form onSubmit={submit}>
-                <div>
-                  title
+    <div>
+      <form onSubmit={submit}>
+        <div>
+          title
                 <input
-                    value={title}
-                    onChange={({ target }) => setTitle(target.value)}
-                  />
-                </div>
-                <div>
-                  author
+            value={title}
+            onChange={({ target }) => setTitle(target.value)}
+          />
+        </div>
+        <div>
+          author
                 <input
-                    value={author}
-                    onChange={({ target }) => setAuhtor(target.value)}
-                  />
-                </div>
-                <div>
-                  published
+            value={author}
+            onChange={({ target }) => setAuhtor(target.value)}
+          />
+        </div>
+        <div>
+          published
                 <input
-                    type='number'
-                    value={published}
-                    onChange={({ target }) => setPublished(target.value)}
-                  />
-                </div>
-                <div>
-                  <input
-                    value={genre}
-                    onChange={({ target }) => setGenre(target.value)}
-                  />
-                  <button onClick={addGenre} type="button">add genre</button>
-                </div>
-                <div>
-                  genres: {genres.join(' ')}
-                </div>
-                <button type='submit'>create book</button>
-              </form>
-            </div>
-          )
-        }
-      }
-    </Mutation>
-
+            type='number'
+            value={published}
+            onChange={({ target }) => setPublished(target.value)}
+          />
+        </div>
+        <div>
+          <input
+            value={genre}
+            onChange={({ target }) => setGenre(target.value)}
+          />
+          <button onClick={addGenre} type="button">add genre</button>
+        </div>
+        <div>
+          genres: {genres.join(' ')}
+        </div>
+        <button type='submit'>create book</button>
+      </form>
+    </div>
   )
 }
 

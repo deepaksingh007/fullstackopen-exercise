@@ -1,17 +1,10 @@
-import { gql } from 'apollo-boost'
 import React from 'react'
 import { useMutation, useQuery } from 'react-apollo'
-import { ALL_AUTHORS } from '../graphql/query'
+import { ALL_AUTHORS } from '../graphql/queries/author'
 import AuthorForm from './AuthorForm'
+import {SET_BORN} from '../graphql/mutations/author'
 
-const SET_BORN = gql(`
-mutation editBorn($name: String!, $born: Int!){
-  editAuthor(name: $name, setBornTo: $born) {
-    name
-    born
-  }
-}
-`)
+
 const Authors = (props) => {
   const { loading, data, error } = useQuery(ALL_AUTHORS)
   const handleError = (error) => console.log(error)

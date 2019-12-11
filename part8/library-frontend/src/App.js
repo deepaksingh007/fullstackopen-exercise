@@ -4,7 +4,8 @@ import Authors from './components/Authors'
 import Books from './components/Books'
 import Login from './components/Login'
 import NewBook from './components/NewBook'
-import { ALL_AUTHORS, BOOKS_BY_GENRE } from './graphql/query'
+import { BOOKS_BY_GENRE } from './graphql/queries/book'
+import { ALL_AUTHORS } from './graphql/queries/author'
 import { BOOK_ADDED } from './graphql/subscription'
 
 
@@ -87,7 +88,7 @@ const App = () => {
       else return  
     }catch(exception){
       console.log(exception)
-      client.query(ALL_AUTHORS)
+      client.query({query: ALL_AUTHORS})
     }
     
   }

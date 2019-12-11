@@ -27,28 +27,3 @@ query bookByGenre($genre: String){
 }
 ${BOOK_DETAILS}
 `
-
-export const ALL_AUTHORS = gql(`{
-  allAuthors{
-    name
-    born
-    bookCount
-  }
-}`)
-
-export const ALL_AUTHORS_AND_BOOKS = gql(`{
-  allBooks{
-    title
-    author{
-      name
-    }
-    published
-    genres
-  }
-  allAuthors{
-    name
-    born
-    bookCount
-  }
-}`)
-

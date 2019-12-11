@@ -1,14 +1,6 @@
 import React from 'react'
 import { useMutation } from 'react-apollo'
-import gql from 'graphql-tag'
-
-const LOGIN = gql`
-  mutation login($username: String!, $password: String!) {
-    login(username: $username, password: $password)  {
-      value
-    }
-  }
-`
+import {LOGIN} from '../graphql/mutations/login'
 
 const Login = (props) => {
   const handleError = (error) => console.log(error)

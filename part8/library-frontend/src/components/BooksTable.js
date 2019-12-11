@@ -1,6 +1,6 @@
 import React from 'react'
 import { useQuery } from 'react-apollo'
-import { BOOKS_BY_GENRE } from '../graphql/query'
+import { BOOKS_BY_GENRE } from '../graphql/queries/book'
 const BooksTable = (props) => {
   const {filter} = props
   const {data, loading} = useQuery(BOOKS_BY_GENRE, {variables: {genre: filter}})
