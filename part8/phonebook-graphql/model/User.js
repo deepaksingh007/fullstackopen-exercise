@@ -1,5 +1,5 @@
-const mongoose = require('mongoose');
-const {MONGODB_URI} = require('../utils/config');
+const mongoose = require('mongoose')
+const {MONGODB_URI} = require('../utils/config')
 const uniqueValidator = require('mongoose-unique-validator')
 
 
@@ -11,15 +11,15 @@ const userSchema = mongoose.Schema({
         minlength: 3,
     },
     favoriteGenre: {
-      type: String,
+        type: String,
     }
-});
+})
 
 userSchema.plugin(uniqueValidator)
 
-const User = mongoose.model('LibraryUser', userSchema);
+const User = mongoose.model('LibraryUser', userSchema)
 if(mongoose.connection.readyState !== 1){
-    mongoose.set('useFindAndModify', false);
-    mongoose.connect(MONGODB_URI, {useNewUrlParser: true, useUnifiedTopology: true });
+    mongoose.set('useFindAndModify', false)
+    mongoose.connect(MONGODB_URI, {useNewUrlParser: true, useUnifiedTopology: true })
 }
-module.exports = User;
+module.exports = User
