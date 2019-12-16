@@ -5,10 +5,8 @@ class AuthorApi extends MongoDataSource {
         return authors
     }
     async getAuthorByName(name){
-        console.log(name)
         if(!name) return null
         const author = await this.model.findOne({name})
-        console.log(author)
         return author
     }
     async incrementBookCount(name){
@@ -24,7 +22,7 @@ class AuthorApi extends MongoDataSource {
                 return null
             }
         }catch(exception){
-            return exception
+            throw exception
         }
     }
     async createAuthor(author){
@@ -34,7 +32,7 @@ class AuthorApi extends MongoDataSource {
             await newAuthor.save()
             return newAuthor
         }catch(exception){
-            return exception
+            throw exception
         }
     }
 }

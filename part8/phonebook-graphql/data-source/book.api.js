@@ -1,23 +1,22 @@
 const { MongoDataSource } = require('apollo-datasource-mongodb')
 class BookApi extends MongoDataSource {
-    async getAllBooks(author, genre) {
+    async getAllBooks(authorName, genre) {
         const books = await this.model.find({}).populate('author')
-        console.log(books)
-        return books.filter(book => (!author || book.author === author) && (!genre || book.genres.includes(genre)))
+        return books.filter(book => (!authorName || book.author.name === authorName) && (!genre || book.genres.includes(genre)))
     }
 
     async createBook(book, author){
         if(!book || !author) return null
         try{
-            const newBook = await new this.model({ ...book, author: author._id }).save()
-            newBook.author = author
-            return newBook
+            const newBook = await this.model.create({ ...book, author: author._id })
+            const newBookObj = {...newBook.toObject(), author}
+            return newBookObj
         }catch(exception){
-            return exception
+            throw exception
         }
     }
     async getBookCount(){
-        const bookCount = await this.model.collection.countDocuments()
+        const bookCount = await this.model.countDocuments()
         return bookCount
     }
 }

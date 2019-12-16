@@ -8,7 +8,7 @@ class UserApi extends MongoDataSource {
             await newUser.save()
             return newUser
         }catch(exception){
-            return exception
+            throw exception
         }    
     }
     async getUserByUserName(username){

@@ -1,9 +1,7 @@
 const mongoose = require('mongoose')
-const {MONGODB_URI} = require('../utils/config')
 const uniqueValidator = require('mongoose-unique-validator')
 
-
-const schema = new mongoose.Schema({
+const schemaDefinition = {
     title: {
         type: String,
         required: true,
@@ -21,12 +19,9 @@ const schema = new mongoose.Schema({
     genres: [
         { type: String}
     ]
-})
-schema.plugin(uniqueValidator)
-if(mongoose.connection.readyState !== 1){
-    mongoose.set('useFindAndModify', false)
-    mongoose.connect(MONGODB_URI, {useNewUrlParser: true, useUnifiedTopology: true })
-    console.log('connect mongoose')
 }
+const schema = new mongoose.Schema(schemaDefinition)
+schema.plugin(uniqueValidator)
 
-module.exports = mongoose.model('Book', schema)
+
+module.exports = {model: mongoose.model('Book', schema), schemaDefinition}

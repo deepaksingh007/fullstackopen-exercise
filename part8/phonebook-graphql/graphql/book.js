@@ -46,8 +46,7 @@ const resolver = {
                 else {
                     author = await authorApi.createAuthor({ name: args.author, born: null, bookCount: 1 })
                 }
-                console.log(author)
-                const book = await bookApi.createBook({ ...args, author: author._id }, author)
+                const book = await bookApi.createBook({ ...args}, author)
                 pubSub.publish('BOOK_ADDED', { bookAdded: book })
                 return book
             } catch (exception) {
