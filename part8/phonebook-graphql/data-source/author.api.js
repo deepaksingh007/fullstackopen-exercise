@@ -35,6 +35,18 @@ class AuthorApi extends MongoDataSource {
             throw exception
         }
     }
+    async updateAuthorBorn(name, born){
+        if(!name) return null
+        const author = await this.model.findOne({name})
+        if(author){
+            author.born = born
+            author.save()
+            return author
+        }
+        else {
+            return null
+        }
+    }
 }
 
 module.exports = AuthorApi

@@ -27,13 +27,8 @@ const resolver = {
             if(!currentUser) {throw new AuthenticationError('not authenticated')}
             try {
                 const { name, setBornTo } = args
-                const author = await authorApi.getAuthorByName(name)
-                if(author){
-                    author.born = setBornTo
-                    await author.save()
-                    return author
-                }
-                else {return null}
+                const author = await authorApi.updateAuthorBorn(name, setBornTo)
+                return author
             } catch (exception) {
                 throw new UserInputError(exception.message, { invalidArgs: args })
             }

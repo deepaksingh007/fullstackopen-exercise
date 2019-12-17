@@ -5,12 +5,13 @@ const {schemaDefinition} = require('../model/Author')
 const authorSchema = mongoose.Schema(schemaDefinition)
 const AuthorForTest = mongoose.model('AuthorForTest', authorSchema)
 const {authorsMock} = require('../model/_test/authorsMock')
-exports.bookApiMock = {
+exports.authorApiMock = {
     ...(new AuthorApi(AuthorForTest)),
     getAllAuthors: jest.fn(),
     getAuthorByName: jest.fn(),
     incrementBookCount: jest.fn(),
-    createAuthor: jest.fn()
+    createAuthor: jest.fn(),
+    updateAuthorBorn: jest.fn()
 }
 
 describe('book api', ()=>{

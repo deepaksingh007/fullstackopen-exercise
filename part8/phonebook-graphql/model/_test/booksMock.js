@@ -17,7 +17,7 @@ exports.booksMock = [
     },
     {
         _id: '5de91d862d9a5e4460878972',
-        genres: ['classic'],
+        genres: ['crime'],
         title: 'Best player in 90s',
         author: '5de91d862d9a5e4460878972',
         published: 1997,
