@@ -1,13 +1,16 @@
 import React, { useState } from 'react'
 import Select from 'react-select'
+interface Option{
+  value: string
+}
 const AuthorForm = (props) => {
-  const [born, setBorn] = useState('')
-  const [selectedOption, setSelectedOption] = useState(null)
+  const [born, setBorn] = useState<string>('')
+  const [selectedOption, setSelectedOption] = useState<Option>(null)
   const { editAuthor, authors} = props
   const options = authors && authors.map(author => ({value: author.name, label: author.name}))
   const submit = (event) => {
     event.preventDefault()
-    editAuthor({variables: {name: selectedOption.value, born: parseInt(born, 10)}})
+    if(selectedOption) editAuthor({variables: {name: selectedOption!.value, born: parseInt(born, 10)}})
     setBorn('')
   }
   return (

@@ -10,6 +10,7 @@ import {split} from 'apollo-link'
 import {getMainDefinition} from 'apollo-utilities'
 import {WebSocketLink} from 'apollo-link-ws'
 
+
 const httpLink = createHttpLink({uri: 'http://localhost:4000/graphql'})
 const authLink = setContext((_, { headers }) => {
   const token = localStorage.getItem('library-user-token')
@@ -25,8 +26,8 @@ const wsLink = new WebSocketLink({
   options: {reconnect: true}
 })
 const link = split(({query}) => {
-  const {kind, operation} = getMainDefinition(query)
-  return kind === 'OperationDefinition' && operation=== 'subscription'
+  const definition = getMainDefinition(query)
+  return definition.kind === 'OperationDefinition' && definition.operation=== 'subscription'
 },
 wsLink,
 authLink.concat(httpLink)

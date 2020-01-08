@@ -11,7 +11,7 @@ import { BOOK_ADDED } from './graphql/subscription'
 
 const App = () => {
   const [page, setPage] = useState('login')
-  const [token, setToken] = useState(null)
+  const [token, setToken] = useState<string>('')
   const client = useApolloClient()
   useEffect(()=>{
     const token = localStorage.getItem('library-user-token')
@@ -21,7 +21,7 @@ const App = () => {
     }
   }, [])
   const logout = () => {
-    setToken(null)
+    setToken('')
     localStorage.clear()
     client.clearStore()
     setPage('login')

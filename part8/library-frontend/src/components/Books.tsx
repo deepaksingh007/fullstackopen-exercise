@@ -6,7 +6,7 @@ import BooksTable from './BooksTable'
 const Books = (props) => {
   const [filter, setFilter] = useState(null)
   const [books, setBooks] = useState(null)
-  const [bookGenres, setBookGenres] = useState(null)
+  const [bookGenres, setBookGenres] = useState<string[]>(null)
   const client = useApolloClient()
   useEffect(() => {
     const getBooks = async () => {
@@ -42,7 +42,7 @@ const Books = (props) => {
         <h2>books</h2>
         {filter ? `in genre ${filter}` : null}
         <BooksTable filter={filter}></BooksTable>
-        {bookGenres && bookGenres.map(genere => <button key={genere} onClick={() => setFilter(genere)}>{genere}</button>)}
+        {bookGenres && (bookGenres as string[]).map(genere => <button key={genere} onClick={() => setFilter(genere)}>{genere}</button>)}
         <button onClick={() => setFilter(null)}>all genres</button>
       </div>
   )
