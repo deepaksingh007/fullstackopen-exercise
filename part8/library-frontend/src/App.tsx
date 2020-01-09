@@ -9,7 +9,7 @@ import { ALL_AUTHORS } from './graphql/queries/author'
 import { BOOK_ADDED } from './graphql/subscription'
 
 
-const App = () => {
+const App: React.FC<{}> = () => {
   const [page, setPage] = useState('login')
   const [token, setToken] = useState<string>('')
   const client = useApolloClient()
@@ -107,7 +107,6 @@ const App = () => {
       setPage={setPage}
       ></Login>
       <Authors
-        token={token}
         show={page === 'authors'}
       />
 

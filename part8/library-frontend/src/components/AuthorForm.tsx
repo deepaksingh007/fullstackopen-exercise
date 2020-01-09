@@ -1,9 +1,15 @@
-import React, { useState } from 'react'
+import React, {useState} from 'react'
 import Select from 'react-select'
-interface Option{
+import {SetBornVariables, MutationFuction} from "../graphql/mutations/mutations.shapes";
+
+type Option = {
   value: string
 }
-const AuthorForm = (props) => {
+type AuthFormProps = {
+  editAuthor: MutationFuction< {},SetBornVariables>
+  authors: {name: string}[]
+}
+const AuthorForm: React.FC<AuthFormProps> = (props) => {
   const [born, setBorn] = useState<string>('')
   const [selectedOption, setSelectedOption] = useState<Option>(null)
   const { editAuthor, authors} = props

@@ -3,12 +3,15 @@ import { useMutation, useQuery } from 'react-apollo'
 import { ALL_AUTHORS } from '../graphql/queries/author'
 import AuthorForm from './AuthorForm'
 import {SET_BORN} from '../graphql/mutations/author'
+import {SetBornVariables} from "../graphql/mutations/mutations.shapes";
 
-
-const Authors = (props) => {
+type AuthorsProps = {
+  show: boolean
+}
+const Authors: React.FC<AuthorsProps> = (props) => {
   const { loading, data, error } = useQuery(ALL_AUTHORS)
   const handleError = (error) => console.log(error)
-  const [editAuthor] = useMutation(SET_BORN, {refetchQueries: [{ query: ALL_AUTHORS }], onError: handleError})
+  const [editAuthor] = useMutation<{}, SetBornVariables>(SET_BORN, {refetchQueries: [{ query: ALL_AUTHORS }], onError: handleError})
   if (!props.show) {
     return null
   }

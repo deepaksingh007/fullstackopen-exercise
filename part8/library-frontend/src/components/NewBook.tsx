@@ -2,7 +2,8 @@ import React, { useState } from 'react'
 import { CREATE_BOOK } from '../graphql/mutations/book'
 import { useMutation } from 'react-apollo'
 
-const NewBook = (props) => {
+type NewBookProps = {show: boolean}
+const NewBook: React.FC<NewBookProps> = (props) => {
   const [title, setTitle] = useState('')
   const [author, setAuhtor] = useState('')
   const [published, setPublished] = useState('')

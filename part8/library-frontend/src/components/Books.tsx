@@ -3,7 +3,8 @@ import { useApolloClient } from 'react-apollo'
 import { ALL_BOOKS, BOOKS_BY_GENRE } from '../graphql/queries/book'
 import BooksTable from './BooksTable'
 
-const Books = (props) => {
+type BooksProps = {show: boolean}
+const Books: React.FC<BooksProps> = (props) => {
   const [filter, setFilter] = useState(null)
   const [books, setBooks] = useState(null)
   const [bookGenres, setBookGenres] = useState<string[]>(null)

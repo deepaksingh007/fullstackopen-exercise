@@ -2,7 +2,14 @@ import React from 'react'
 import { useMutation } from 'react-apollo'
 import {LOGIN} from '../graphql/mutations/login'
 
-const Login = (props) => {
+type LoginProps = {
+  show : boolean,
+  setToken : (string) => void,
+  setPage: (string) => void
+}
+
+
+const Login: React.FC<LoginProps> = (props) => {
   const handleError = (error) => console.log(error)
   const [login] = useMutation(LOGIN, {onError: handleError})
   const {show, setToken, setPage} = props
